@@ -316,6 +316,7 @@ def midi_to_pianoroll(mid: mido.MidiFile, div: int, pedal: bool = True):
     for track in mid.tracks:
         # Get notes and pedal for each track
         mid_notes = _get_notes(track)
+        mid_pedal = _get_pedal(track)
 
         # Compute piano_roll
         for note in mid_notes:
@@ -324,7 +325,6 @@ def midi_to_pianoroll(mid: mido.MidiFile, div: int, pedal: bool = True):
             # If recognising pedal
             if pedal is True:
                 # Calculate all relevant end times for pedal
-                mid_pedal = _get_pedal(track)
                 pedal_end_ticks = [0]
                 for pedal_range in mid_pedal:
                     if pedal_range[0] < note[2] < pedal_range[1]:
@@ -367,8 +367,8 @@ def midi_to_pianoroll(mid: mido.MidiFile, div: int, pedal: bool = True):
 
 
 def test():
-    mid = mido.MidiFile("chopin.mid")
-    p_roll = PianoRoll.from_midi(mid, 8, pedal=False)
+    mid = mido.MidiFile("beethoven.mid")
+    p_roll = PianoRoll.from_midi(mid, 4, pedal=False)
     mid_res = p_roll.to_midi()
     mid_res.save("mid_res.mid")
 
