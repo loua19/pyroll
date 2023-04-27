@@ -8,7 +8,7 @@ setup(
     author="loua19",
     author_email="loua19@outlook.com",
     license="MIT",
-    install_requires=["mido", "progress"],
+    install_requires=["mido", "progress", "rdflib"],
     extras_require={
         "dev": ["flake8", "black"],
     },
