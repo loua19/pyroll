@@ -4,7 +4,6 @@ setup(
     name="pyroll",
     version="0.0.10",
     package_dir={"pyroll": "src/pyroll"},
-    packages=find_packages(where="pyroll"),
     url="https://github.com/loua19/pyroll",
     author="loua19",
     author_email="loua19@outlook.com",
