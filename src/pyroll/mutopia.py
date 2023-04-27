@@ -6,7 +6,7 @@ from pathlib import Path
 from rdflib import Graph
 
 
-from pianoroll import PianoRoll
+from .pianoroll import PianoRoll
 
 
 def download_ftp(unzip: bool = False):

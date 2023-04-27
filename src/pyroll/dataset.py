@@ -3,16 +3,15 @@ piano-roll objects."""
 
 import json
 import logging
-import random
 import mido
 from typing import Callable, Optional
 from pathlib import Path
 from progress.bar import Bar
 
 
-import pianoroll
-from pianoroll import PianoRoll
-from mutopia import parse_rdf_metadata, filter_instrument
+from . import pianoroll
+from .pianoroll import PianoRoll
+from .mutopia import parse_rdf_metadata, filter_instrument
 
 
 class PianoRollDataset:
@@ -48,7 +47,7 @@ class PianoRollDataset:
             split (float): Ratio to spit the train and validation sets.
 
         Returns:
-            tuple(PianoRollDataset): Train and validation splits.
+            tuple (PianoRollDataset): Train and validation splits.
         """
         assert 0.0 < split_ratio < 1.0, "Invalid value for split"
         split_ind = round(len(self) * split_ratio)
