@@ -8,5 +8,5 @@ Currently you must build from source. You can do this by executing the following
 
 ```
 git clone https://github.com/loua19/pyroll
-cd pyroll && python setup.py install
+python pyroll/setup.py install
 ```
