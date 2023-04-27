@@ -7,6 +7,5 @@ PyRoll is a lightweight Python package for working with piano-rolls. It includes
 Currently you must build from source. You can do this by executing the following commands in a Python environment:
 
 ```
-git clone https://github.com/loua19/pyroll
-python pyroll/setup.py install
+ pip install git+https://github.com/loua19/pyroll.git
 ```
