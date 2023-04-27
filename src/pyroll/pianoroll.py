@@ -364,14 +364,3 @@ def midi_to_pianoroll(mid: mido.MidiFile, div: int, pedal: bool = True):
     ]
 
     return PianoRoll(piano_roll, meta_data)
-
-
-def test():
-    mid = mido.MidiFile("beethoven.mid")
-    p_roll = PianoRoll.from_midi(mid, 4, pedal=False)
-    mid_res = p_roll.to_midi()
-    mid_res.save("mid_res.mid")
-
-
-if __name__ == "__main__":
-    test()

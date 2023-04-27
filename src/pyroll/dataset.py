@@ -212,11 +212,3 @@ def build_dataset(
     )
 
     return PianoRollDataset(piano_rolls)
-
-
-def test():
-    pass
-
-
-if __name__ == "__main__":
-    test()
