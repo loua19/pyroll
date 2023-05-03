@@ -163,7 +163,16 @@ def build_dataset(
 
     # By default parse .mid with parse_mid().
     if not parse_fn:
-        assert extension == "mid", "Invalid extension with default parse_fn."
+        if isinstance(extension, list):
+            assert set(extension) <= set(
+                ["mid", "midi"]
+            ), "Invalid extension with default parse_fn."
+        elif isinstance(extension, list):
+            assert extension in [
+                "mid",
+                "midi",
+            ], "Invalid extension with default parse_fn."
+
         parse_fn = parse_midi
 
     # Calculate number of files present
