@@ -76,12 +76,17 @@ class PianoRoll:
 
         chord = []
         for tok in seq:
-            if isinstance(tok, int):
-                chord.append(tok)
-            elif tok == "<T>":
-                roll.append(list(set(chord)))
+            if tok == "<T>":
+                # Remove dupes - convert to hashable tuple and list(set())
+                chord = list(set([(tok["val"], tok["art"]) for tok in chord]))
+                chord = [{"val": tok[0], "art": tok[1]} for tok in chord]
+                roll.append(chord)
                 chord = []
-            else:
+            elif isinstance(tok, tuple):  # Supports tuple representation
+                chord.append({"val": tok[0], "art": tok[1]})
+            elif isinstance(tok, dict):  # Supports dict representation
+                chord.append({"val": tok["val"], "art": tok["art"]})
+            else:  # Catches '<S>', '<E>', '<U>', ect...
                 pass
 
         return PianoRoll(roll, meta_data)
