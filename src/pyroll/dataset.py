@@ -128,7 +128,7 @@ class PianoRollDataset:
 def build_dataset(
     dir: str,
     recur: bool,
-    extension: str = "mid",
+    extension: str | list = "mid",
     parse_fn: Optional[Callable] = None,
     metadata_fn: Optional[Callable] = None,
     filter_fn: Optional[Callable] = None,
@@ -156,6 +156,10 @@ def build_dataset(
     Returns:
         PianoRollDataset: Dataset of parsed PianoRoll objects.
     """
+    # List of one extension if str provided
+    if isinstance(extension, str):
+        extension = [extension]
+    extension = list(set(extension))
 
     def parse_midi(path):
         mid = mido.MidiFile(path)
@@ -163,32 +167,30 @@ def build_dataset(
 
     # By default parse .mid with parse_mid().
     if not parse_fn:
-        if isinstance(extension, list):
-            assert set(extension) <= set(
-                ["mid", "midi"]
-            ), "Invalid extension with default parse_fn."
-        elif isinstance(extension, list):
-            assert extension in [
-                "mid",
-                "midi",
-            ], "Invalid extension with default parse_fn."
+        assert set(extension) <= set(
+            ["mid", "midi"]
+        ), "Invalid extensions with default parse_fn."
 
         parse_fn = parse_midi
 
     # Calculate number of files present
     num_files = 0
-    for path in Path(dir).rglob(f"*.{extension}"):
-        num_files += 1
+    for ext in extension:
+        for path in Path(dir).rglob(f"*.{ext}"):
+            num_files += 1
 
     # Generate PianoRoll objects
     filter_num = 0
     parse_err_num = 0
     piano_rolls = []
     with Bar("Building dataset...", max=num_files) as bar:
+        paths = []
         if recur is True:
-            paths = Path(dir).rglob(f"*.{extension}")
+            for ext in extension:
+                paths += Path(dir).rglob(f"*.{ext}")
         else:
-            paths = Path(dir).glob(f"*.{extension}")
+            for ext in extension:
+                paths += Path(dir).glob(f"*.{ext}")
 
         for path in paths:
             # Parse path according to parse_fn
