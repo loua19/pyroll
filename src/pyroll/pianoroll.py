@@ -292,14 +292,18 @@ def midi_to_pianoroll(mid: mido.MidiFile, div: int, pedal: bool = True):
         """Returns periods that pedal is activated. Note mid is expected to
         have event times in absolute units."""
         pedal = []
+        pedal_down = False
         last_pedal_on = 0
 
         for event in track:
             if event.type == "control_change" and event.control == 64:
                 if event.value == 127:
                     last_pedal_on = event.time
+                    pedal_down = True
                 elif event.value == 0:
-                    pedal.append([last_pedal_on, event.time])
+                    if pedal_down is True:
+                        pedal.append([last_pedal_on, event.time])
+                    pedal_down = False
             else:
                 continue
 
