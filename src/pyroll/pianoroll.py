@@ -56,7 +56,7 @@ class PianoRoll:
         return {"roll": self.roll, "meta_data": self.meta_data}
 
     @classmethod
-    def from_midi(cls, mid: mido.MidiFile, div: int, pedal: bool = True):
+    def from_midi(cls, mid: mido.MidiFile, div: int, pedal: bool = False):
         """Inplace version of midi_to_pianoroll.
 
         Args:
@@ -190,7 +190,7 @@ def pianoroll_to_midi(piano_roll: PianoRoll):
     return mid
 
 
-def midi_to_pianoroll(mid: mido.MidiFile, div: int, pedal: bool = True):
+def midi_to_pianoroll(mid: mido.MidiFile, div: int, pedal: bool = False):
     """Parses a mido.MidiFile object into a PianoRoll object.
 
     Args:
