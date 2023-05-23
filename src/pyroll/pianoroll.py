@@ -145,7 +145,9 @@ def pianoroll_to_midi(piano_roll: PianoRoll, tempo_factor: float = 1):
     # Add meta events to meta_track
     meta_track.append(mido.Message("program_change", program=0, time=0))
     meta_track.append(
-        mido.MetaMessage("set_tempo", tempo=1_000_000 * tempo_factor, time=0)
+        mido.MetaMessage(
+            "set_tempo", tempo=int(1_000_000 / tempo_factor), time=0
+        )
     )
     if piano_roll.meta_data["meta_events"]:
         piano_roll.meta_data["meta_events"].sort(key=lambda v: v["time"])
