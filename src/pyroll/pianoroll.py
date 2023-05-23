@@ -39,13 +39,13 @@ class PianoRoll:
         for k, v in meta_data.items():
             self.meta_data[k] = v
 
-    def to_midi(self):
+    def to_midi(self, tempo_factor: float = 1):
         """Inplace version of pianoroll_to_midi.
 
         Returns:
             mido.MidiFile: MidiFile parsed from self.
         """
-        return pianoroll_to_midi(self)
+        return pianoroll_to_midi(self, tempo_factor)
 
     def to_dict(self):
         """Returns PianoRoll data as a dictionary.
@@ -92,7 +92,7 @@ class PianoRoll:
         return PianoRoll(roll, meta_data)
 
 
-def pianoroll_to_midi(piano_roll: PianoRoll):
+def pianoroll_to_midi(piano_roll: PianoRoll, tempo_factor: float = 1):
     """Parses a PianoRoll object into a mid.MidiFile object.
 
     Automatically adds midi meta-messages located in meta_data["meta_events"]
@@ -144,7 +144,9 @@ def pianoroll_to_midi(piano_roll: PianoRoll):
 
     # Add meta events to meta_track
     meta_track.append(mido.Message("program_change", program=0, time=0))
-    meta_track.append(mido.MetaMessage("set_tempo", tempo=1_000_000, time=0))
+    meta_track.append(
+        mido.MetaMessage("set_tempo", tempo=1_000_000 * tempo_factor, time=0)
+    )
     if piano_roll.meta_data["meta_events"]:
         piano_roll.meta_data["meta_events"].sort(key=lambda v: v["time"])
     prev_time = 0
